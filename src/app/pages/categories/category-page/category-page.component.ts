@@ -15,7 +15,7 @@ export class CategoryPageComponent {
     {
       id: "b7e0a704-685c-43d5-9802-574c28b4165e",
       name: "Loyer",
-      plannedInMonth: 15000,
+      plannedInMonth: 14000,
       type: "EXPENSE",
       createdDateTime: "2025-04-23T09:50:46.949742"
     },
