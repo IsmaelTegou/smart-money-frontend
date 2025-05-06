@@ -1,20 +1,60 @@
 <div class="card">
-  <p-table [value]="categories" [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template #header>
-      <tr>
-        <th>Nom</th>
-        <th>Planifie par mois</th>
-        <th>Type</th>
-        <th>Cree le</th>
-      </tr>
-    </ng-template>
-    <ng-template #body let-category>
-      <tr>
-        <td>{{ category.name }}</td>
-        <td>{{ category.plannedInMonth }}</td>
-        <td>{{ category.type }}</td>
-        <td>{{ category.createdDateTime }}</td>
-      </tr>
-    </ng-template>
+  <p-table 
+    #dt
+    [value]="categories" 
+    [tableStyle]="{ 'min-width': '50rem' }"
+    showGridlines
+    [globalFilterFields]="globalFilterFields"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 40, 100]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Affichage de {first} a {last} elements sur {totalRecords} entres"
+    [rowHover]="true"
+    >
+      <!-- Recherche globale -->
+      <ng-template #caption>
+        <div class="flex items-center justify-between">
+          <p-button icon="pi pi-plus" label="Ajouter"></p-button>
+          <p-iconfield>
+            <p-inputicon styleClass = "pi pi-search"/>
+            <input pInputText type = "text" (input)="onGlobalFilter(dt, $event)" placeholder="Recherche...">
+          </p-iconfield>
+        </div>
+      </ng-template>
+      
+      <ng-template #header>
+        <tr>
+          @for (col of cols; track $index) {
+            <th style="text-align: center;">{{col.header}}</th>
+          }
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-category>
+        <tr>
+          @for(col of cols; track $index) {
+            <td style="text-align: center;">
+              @if (col.field==='plannedInMonth') {
+                {{category[col.field] | currency: 'XAF '}}
+              }
+              @else if (col.field==='createdDateTime') {
+                {{category[col.field] |date: 'EEEE MMMM yyyy At HH:mm:ss'}}
+              }
+              @else if (col.field==='type') {
+                @if (category[col.field]==='EXPENSE') {
+                  <p-tag value="Depense" severity="danger"></p-tag>
+                }
+                @if (category[col.field]==='INCOME') {
+                  <p-tag value="Revenu" severity="success"></p-tag>
+                }
+              }
+              @else {
+                {{category[col.field]}}
+              }
+            </td>
+          }
+        </tr>
+      </ng-template>
   </p-table>
 </div>

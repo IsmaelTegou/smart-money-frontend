@@ -1,52 +1,72 @@
-import { Component } from '@angular/core';
-import {TableModule} from 'primeng/table';
+import {Component, Input, OnInit} from '@angular/core';
+import {Table, TableModule} from 'primeng/table';
 import {Category} from '../../../models/category';
+import {CategoryService} from '../../../services/category.service';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Column } from '../../../enums/column';
+import {TagModule} from 'primeng/tag';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-category-page',
   imports: [
-    TableModule
+    TableModule,
+    CurrencyPipe,
+    DatePipe,
+    TagModule,
+    IconField,
+    InputIcon,
+    InputText,   
+    Button
   ],
   templateUrl: './category-page.component.html',
   styleUrl: './category-page.component.scss'
 })
-export class CategoryPageComponent {
-  categories: Category[] = [
-    {
-      id: "b7e0a704-685c-43d5-9802-574c28b4165e",
-      name: "Loyer",
-      plannedInMonth: 14000,
-      type: "EXPENSE",
-      createdDateTime: "2025-04-23T09:50:46.949742"
-    },
-    {
-      id: "7cf1d6e0-954d-4b62-aa96-0624bc69b2d4",
-      name: "Alimentation",
-      plannedInMonth: 30000,
-      type: "EXPENSE",
-      createdDateTime: "2025-04-23T09:51:02.955138"
-    },
-    {
-      id: "fdd29a97-fa5b-4600-b291-1ff4b7b9955f",
-      name: "Imprevues",
-      plannedInMonth: 10000,
-      type: "EXPENSE",
-      createdDateTime: "2025-04-23T09:51:25.437633"
-    },
-    {
-      id: "067bc275-7801-4c88-9cc0-d4a4e421278f",
-      name: "Factures",
-      plannedInMonth: 5000,
-      type: "EXPENSE",
-      createdDateTime: "2025-04-23T09:51:50.839575"
-    },
-    {
-      id: "5f777b3e-475b-456e-bdb2-a957d9897e8c",
-      name: "Salaire",
-      plannedInMonth: 100000,
-      type: "INCOME",
-      createdDateTime: "2025-04-23T09:52:28.311848"
-    }
-  ];
+export class CategoryPageComponent implements OnInit {
+  categories!: Category[];
+  public globalFilterFields: string[] = [];
+  @Input({required: true}) type: 'EXPENSE' | 'INCOME' = 'EXPENSE';
+  public cols: Column[] = [];
+
+  constructor(private categoryService: CategoryService) {}
+
+  public onGlobalFilter(table: Table, event: Event): void {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  ngOnInit(): void {
+    this.setupCols();
+    this.getByType(this.type);
+  }
+
+  getByType(type: string){
+    this.categoryService.getCathegoryByType(type).subscribe({
+      next: data => {
+        this.categories = data;
+      }
+    })
+  }
+
+  private setupCols(): void {
+    this.cols = [
+      {field: 'name', header: 'Nom'},
+      {field: 'plannedInMonth', header: 'Planifie par mois'},
+      {field: 'type', header: 'Type'},
+      {field: 'createdDateTime', header: 'Cree le'},
+    ];
+    //this.globalFilterFields = this.cols.map((col) => col.field);  prend tous les champs en compte
+    this.globalFilterFields = ['name', 'plannedInMonth', 'type'];
+  }
+
+
+  // ngOnInit(): void {
+  //   this.categoryService.getAllCategories().subscribe((data: Category[]): void =>{
+  //     this.categories = data;
+  //   })
+  // }
+
 
 }
