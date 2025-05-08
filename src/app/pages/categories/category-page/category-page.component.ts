@@ -9,6 +9,10 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
+import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import { CategoryItemComponent } from '../category-item/category-item.component';
+import { Tooltip } from 'primeng/tooltip';
+
 
 @Component({
   selector: 'app-category-page',
@@ -20,7 +24,8 @@ import { Button } from 'primeng/button';
     IconField,
     InputIcon,
     InputText,   
-    Button
+    Button,
+    Tooltip
   ],
   templateUrl: './category-page.component.html',
   styleUrl: './category-page.component.scss'
@@ -30,8 +35,9 @@ export class CategoryPageComponent implements OnInit {
   public globalFilterFields: string[] = [];
   @Input({required: true}) type: 'EXPENSE' | 'INCOME' = 'EXPENSE';
   public cols: Column[] = [];
+  private ref!: DynamicDialogRef;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private dialogService: DialogService) {}
 
   public onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -59,6 +65,38 @@ export class CategoryPageComponent implements OnInit {
     ];
     //this.globalFilterFields = this.cols.map((col) => col.field);  prend tous les champs en compte
     this.globalFilterFields = ['name', 'plannedInMonth', 'type'];
+  }
+
+  openAddDialog(): void {
+    this.ref = this.dialogService.open(CategoryItemComponent, {
+      header: "Nouvelle categorie",
+      closable: true,
+      modal: true,
+      width: '40vw',
+      data: {type: this.type}
+    })
+
+    this.ref.onClose.subscribe((created: Category):void => {
+      if(created){
+        this.categories.unshift(created);
+      }
+    })
+  }
+
+  editCategory(category: Category): void {
+    this.ref = this.dialogService.open(CategoryItemComponent, {
+      header: "Editer categorie",
+      closable: true,
+      modal: true,
+      width: '40vw',
+      data: category
+    })
+
+    this.ref.onClose.subscribe((updated: Category):void => {
+      if(updated){
+        this.categories = this.categories.map(c => (c.id===updated.id? updated: c));
+      }
+    })
   }
 
 
