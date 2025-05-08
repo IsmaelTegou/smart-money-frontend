@@ -1,0 +1,36 @@
+<form [formGroup]="categoryForm" (ngSubmit)="submit()" class="bg-white rounded-lg shadow-md p-6 border border-gray-200 space-y-8">
+    <!-- 🧾 En-tête du formulaire -->
+  
+    <!-- 🧠 Formulaire principal -->
+    <div class="grid grid-cols-12 gap-6">
+      <!-- Nom -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="name"  class="block text-sm font-medium text-gray-700 required-asterisk">Nom</label>
+        <input pInputText type="text" id="name" formControlName="name"  class="w-full" />
+        <div *ngIf="categoryForm.get('name')?.touched && categoryForm.get('name')?.invalid" class="text-red-600 text-sm">
+          Nom requis (min. 2 caractères).
+        </div>
+      </div>
+  
+      <!-- Pseudonyme -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="plannedInMonth" class="block text-sm font-medium text-gray-700 required-asterisk">Montant Prévu par mois en XAF </label>
+        <input pInputText id="plannedInMonth" type="text" formControlName="plannedInMonth" class="w-full" />
+        <div *ngIf="categoryForm.get('plannedInMonth')?.touched && categoryForm.get('plannedInMonth')?.invalid" class="text-red-600 text-sm">
+          Valeur numérique ≥ 1 requise.
+        </div>
+      </div>
+  
+    </div>
+  
+  
+    <!-- ✅ Bouton de soumission -->
+    <div class="flex justify-end gap-2">
+      <p-button
+        type="submit"
+        label="{{ isSaving ? 'En cours...' : (categoryForm.value.id ? 'Mettre à jour' : 'Enregistrer') }}"
+        icon="{{ isSaving ? 'pi pi-spin pi-spinner' : 'pi pi-check' }}"
+        [disabled]="isSaving"
+      ></p-button>
+    </div>
+  </form>

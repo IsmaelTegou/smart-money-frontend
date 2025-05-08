@@ -5,6 +5,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import {provideHttpClient} from '@angular/common/http';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -12,6 +14,9 @@ export const appConfig: ApplicationConfig = {
       provideRouter(routes),
       provideAnimationsAsync(),
       provideHttpClient(),
+      DialogService,
+      DynamicDialogRef,
+      MessageService,
       providePrimeNG({
           theme: {
               preset: Aura
