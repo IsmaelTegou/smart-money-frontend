@@ -57,7 +57,7 @@
             </td>
           }
           <td style="text-align: center;">
-            <p-button [text]="true" icon="pi pi-pencil" [rounded]="true" pTooltip="Editer" (click)="editCategory(category)" ></p-button>
+            <app-action [item]="category" (onDelete)="deleteCategory(category)" (onEdit)="editCategory(category)"></app-action>
           </td>
         </tr>
       </ng-template>

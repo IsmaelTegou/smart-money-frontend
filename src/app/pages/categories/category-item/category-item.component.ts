@@ -52,7 +52,7 @@ export class CategoryItemComponent implements OnInit, OnDestroy {
     if(this.categoryForm.value.id){
       this.categoryService.updateCategory(this.categoryForm.value.id, this.categoryForm.value).subscribe({ 
         next: (category: Category): void =>{
-        this.messageService.add({severity: 'success', summary: 'Succes', detail: 'Categorie mise a jour'})
+        this.messageService.add({severity: 'success', summary: 'Succes', detail: 'Categorie mise a jour'});
         this.isSaving = false;
         this.dynamicDialogRef.close(category);
       }
