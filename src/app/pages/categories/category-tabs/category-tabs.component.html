@@ -1,8 +1,22 @@
-<p-tabView>
-    <p-tabPanel header="Depenses">
-        <app-category-page type = "EXPENSE"></app-category-page>
-    </p-tabPanel>
-    <p-tabPanel header="Revenus">
-        <app-category-page type = "INCOME"></app-category-page>
-    </p-tabPanel>
-</p-tabView>
+<div class="card">
+    <p-tabs value="0">
+        <p-tablist>
+            <p-tab value="0">
+                Depenses
+                <i class="pi pi-arrow-up-right" style="color: rgb(235, 33, 10)"></i>
+            </p-tab>
+            <p-tab value="1">
+                Revenus
+                 <i class="pi pi-arrow-down-left" style="color: slateblue"></i>
+            </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+            <p-tabpanel value="0">                
+                <app-category-page type = "EXPENSE"></app-category-page>
+            </p-tabpanel>
+            <p-tabpanel value="1">
+               <app-category-page type = "INCOME"></app-category-page>
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+</div>
