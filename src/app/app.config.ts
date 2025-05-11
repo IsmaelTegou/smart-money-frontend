@@ -6,7 +6,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import {provideHttpClient} from '@angular/common/http';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -17,6 +17,7 @@ export const appConfig: ApplicationConfig = {
       DialogService,
       DynamicDialogRef,
       MessageService,
+      ConfirmationService,
       providePrimeNG({
           theme: {
               preset: Aura

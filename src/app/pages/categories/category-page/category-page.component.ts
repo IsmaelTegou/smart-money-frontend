@@ -11,7 +11,8 @@ import { InputText } from 'primeng/inputtext';
 import { Button } from 'primeng/button';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import { CategoryItemComponent } from '../category-item/category-item.component';
-import { Tooltip } from 'primeng/tooltip';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ActionComponent } from "../../../shared/action/action.component";
 
 
 @Component({
@@ -23,10 +24,10 @@ import { Tooltip } from 'primeng/tooltip';
     TagModule,
     IconField,
     InputIcon,
-    InputText,   
+    InputText,
     Button,
-    Tooltip
-  ],
+    ActionComponent
+],
   templateUrl: './category-page.component.html',
   styleUrl: './category-page.component.scss'
 })
@@ -37,7 +38,10 @@ export class CategoryPageComponent implements OnInit {
   public cols: Column[] = [];
   private ref!: DynamicDialogRef;
 
-  constructor(private categoryService: CategoryService, private dialogService: DialogService) {}
+  constructor(
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private categoryService: CategoryService, private dialogService: DialogService) {}
 
   public onGlobalFilter(table: Table, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -97,6 +101,22 @@ export class CategoryPageComponent implements OnInit {
         this.categories = this.categories.map(c => (c.id===updated.id? updated: c));
       }
     })
+  }
+
+  deleteCategory(category: Category): void {
+    this.confirmationService.confirm({
+      message: "Voulez-vous vraiment supprimer la categorie ("+category.name+") ?",
+      header: "Confirmation de suppression",
+      accept: (): void => {
+        this.categoryService.deleteCategory(category.id).subscribe({
+          next: (): void => {
+            this.categories = this.categories.filter(c => c.id!==category.id);
+            this.messageService.add({severity: 'info', summary: 'Succes', detail: 'Categorie supprimee'});
+          }
+        });
+      }
+    });
+    
   }
 
 
