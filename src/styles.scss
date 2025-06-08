@@ -2,3 +2,8 @@
 @use 'primeicons/primeicons.css';
 @use "tailwindcss";
 
+
+.required-asterisk::after {
+  content: ' *';
+  color: #dc2626; /* red-600 de Tailwind */
+}

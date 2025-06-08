@@ -1,0 +1,77 @@
+<form [formGroup]="transactionForm" (ngSubmit)="submit()" class="bg-white rounded-lg shadow-md p-6 border border-gray-200 space-y-8">
+  <div class="grid grid-cols-12 gap-6">
+
+    <!-- Type -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="type" class="block text-sm font-medium text-gray-700 required-asterisk">Type</label>
+      <p-select
+        id="type"
+        [options]="typeOptions"
+        formControlName="type"
+        (onChange)="onTypeChange($event.value)"
+        placeholder="Sélectionner un type"
+        class="w-full"
+        appendTo="body">
+      </p-select>
+      <div *ngIf="transactionForm.get('type')?.touched && transactionForm.get('type')?.invalid" class="text-red-600 text-sm">
+        Le type est requis.
+      </div>
+    </div>
+
+    <!-- Catégorie -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="categoryId" class="block text-sm font-medium text-gray-700 required-asterisk">Catégorie</label>
+      <p-select
+        id="categoryId"
+        [options]="categoryOptions"
+        optionLabel="name"
+        optionValue="id"
+        (onChange)="onCategoryChange($event.value)"
+        formControlName="categoryId"
+        placeholder="Sélectionner une catégorie"
+        class="w-full"
+        appendTo="body">
+      </p-select>
+      <div *ngIf="transactionForm.get('categoryId')?.touched && transactionForm.get('categoryId')?.invalid" class="text-red-600 text-sm">
+        La catégorie est requise.
+      </div>
+    </div>
+
+    <!-- Montant -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="amount" class="block text-sm font-medium text-gray-700 required-asterisk">Montant (€)</label>
+      <input id="amount" pInputText type="number" formControlName="amount" class="w-full" />
+      <div *ngIf="transactionForm.get('amount')?.touched && transactionForm.get('amount')?.invalid" class="text-red-600 text-sm">
+        Montant requis (≥ 0.01).
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="note" class="block text-sm font-medium text-gray-700 required-asterisk">Note</label>
+      <input id="note" pInputText type="text" formControlName="note" class="w-full" />
+      <div *ngIf="transactionForm.get('note')?.touched && transactionForm.get('note')?.invalid" class="text-red-600 text-sm">
+        la note est requise
+      </div>
+    </div>
+
+    <!-- Date -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="date" class="block text-sm font-medium text-gray-700 required-asterisk">Date</label>
+      <input id="date" type="date" pInputText formControlName="date" class="w-full" />
+      <div *ngIf="transactionForm.get('date')?.touched && transactionForm.get('date')?.invalid" class="text-red-600 text-sm">
+        La date est requise.
+      </div>
+    </div>
+
+  </div>
+  <p-divider></p-divider>
+  <div class="flex justify-end gap-2">
+    <p-button
+      type="submit"
+      label="{{ isSaving ? 'En cours...' : (transactionForm.value.id ? 'Mettre à jour' : 'Enregistrer') }}"
+      icon="{{ isSaving ? 'pi pi-spin pi-spinner' : 'pi pi-check' }}"
+      [disabled]="isSaving">
+    </p-button>
+  </div>
+</form>

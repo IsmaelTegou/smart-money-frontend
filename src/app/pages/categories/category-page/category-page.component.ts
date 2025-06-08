@@ -53,7 +53,7 @@ export class CategoryPageComponent implements OnInit {
   }
 
   getByType(type: string){
-    this.categoryService.getCathegoryByType(type).subscribe({
+    this.categoryService.getCategoriesByType(type).subscribe({
       next: data => {
         this.categories = data;
       }
@@ -114,7 +114,8 @@ export class CategoryPageComponent implements OnInit {
             this.messageService.add({severity: 'info', summary: 'Succes', detail: 'Categorie supprimee'});
           }
         });
-      }
+      },
+      icon: 'pi pi-exclamation-triangle'
     });
     
   }

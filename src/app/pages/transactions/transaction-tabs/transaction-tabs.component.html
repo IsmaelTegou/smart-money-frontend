@@ -1,0 +1,29 @@
+<div class="card">
+    <p-tabs value="0">
+        <p-tablist>
+            <p-tab value="0">
+                Toutes
+                <i class="pi pi-arrow-down-left-and-arrow-up-right-to-center"></i>
+            </p-tab>
+            <p-tab value="1">
+                Depenses
+                <i class="pi pi-arrow-up-right" style="color: rgb(235, 33, 10)"></i>
+            </p-tab>
+            <p-tab value="2">
+                Revenus
+                 <i class="pi pi-arrow-down-left" style="color: slateblue"></i>
+            </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+            <p-tabpanel value="0">                
+                <app-transaction-page></app-transaction-page>
+            </p-tabpanel>
+            <p-tabpanel value="1">                
+                <app-transaction-page type = "EXPENSE"></app-transaction-page>
+            </p-tabpanel>
+            <p-tabpanel value="2">
+               <app-transaction-page type = "INCOME"></app-transaction-page>
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+</div>

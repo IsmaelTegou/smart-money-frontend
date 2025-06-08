@@ -44,6 +44,7 @@ export class CategoryItemComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    console.log(this.categoryForm.value)
     if(this.categoryForm.invalid){
       this.categoryForm.markAllAsTouched();
       return;
