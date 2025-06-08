@@ -15,9 +15,9 @@ import {Button} from 'primeng/button';
 export class HeaderComponent {
   menuItems: MenuItem[] = [
     {
-      label: 'Transaction',
+      label: 'Transactions',
       icon: 'pi pi-fw pi-wallet',
-      routerLink: '/transaction',
+      routerLink: '/transactions',
     },
     {
       label: 'Category',

@@ -1,0 +1,53 @@
+<p-table
+  #dt
+  showGridlines
+  [globalFilterFields]="globalFilterFields"
+  [value]="transactions"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 30, 100, 1000]"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} entrées"
+  [rowHover]="true"
+>
+  <!-- 🔍 Recherche globale -->
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <p-button icon="pi pi-plus" (onClick)="openCreate()" label="ajouter"></p-button>
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Recherche..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      @for (col of cols; track col){
+        <th>
+          {{col.header}}
+        </th>
+      }
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-transaction>
+    <tr>
+      @for (col of cols; track col){
+        <td>
+          @if(col.field==='amount'){
+            {{transaction[col.field] | currency: 'EUR'}}
+          } @else if (col.field==='date'){
+            {{transaction[col.field] | date: 'EEEE d MMMM yyyy'}}
+          } @else {
+            {{transaction[col.field] || '-'}}
+          }
+        </td>
+      }
+      <td>
+        <app-action [item]="transaction" (onEdit)="openEdit(transaction)" (onDelete)="delete(transaction)"></app-action>
+      </td>
+
+    </tr>
+  </ng-template>
+</p-table>
