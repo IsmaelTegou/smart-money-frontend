@@ -1,10 +1,14 @@
-<p-menubar [model]="menuItems">
+<p-menubar [model]="authService.menuItems">
   <ng-template #start>
     <h3 class="font-bold">Smart Geek Money</h3>
   </ng-template>
   <ng-template #end>
     <div class="flex items-center gap-2">
-      <p-button icon="pi pi-user" label="login"></p-button>
-    </div>
+      @if (authService.isAuthenticated) {
+        <div class="flex items-center gap-3">
+          <p-button pTooltip="Deconnexion" (click)="logout()" icon="pi pi-sign-out"></p-button>
+        </div>
+      }
+    </div> 
   </ng-template>
 </p-menubar>

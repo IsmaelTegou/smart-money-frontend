@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {Select} from 'primeng/select';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
@@ -35,10 +35,12 @@ export class TransactionItemComponent implements OnInit, OnDestroy {
     { label: 'Revenu', value: 'INCOME' }
   ];
 
+  private transactionService: TransactionService = inject(TransactionService);
+
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private transactionService: TransactionService,
+    //private transactionService: TransactionService,
     private dialogRef: DynamicDialogRef,
     private dialogConfig: DynamicDialogConfig,
     private messageService: MessageService
@@ -95,7 +97,7 @@ export class TransactionItemComponent implements OnInit, OnDestroy {
     if (formValue.id) {
       console.log(formValue);
       this.transactionService.update(formValue.id, formValue).subscribe({
-        next: (res) => {
+        next: (res:any) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Transaction mise à jour' });
           this.isSaving = false;
           this.dialogRef.close(res);
@@ -103,7 +105,7 @@ export class TransactionItemComponent implements OnInit, OnDestroy {
       });
     } else {
       this.transactionService.create(formValue).subscribe({
-        next: (res) => {
+        next: (res:any) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Transaction enregistrée' });
           this.isSaving = false;
           this.dialogRef.close(res);

@@ -1,0 +1,63 @@
+<div class="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+  <div class="bg-white shadow-xl rounded-2xl w-full max-w-lg p-8">
+
+    <p-divider align="center" type="solid">
+      <b>Se connecter</b>
+    </p-divider>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-4">
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-gray-800 font-medium mb-1 required-asterisk">
+          Adresse email
+        </label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          placeholder="Entrez votre email"
+          pInputText
+          class="w-full"
+        />
+        <div *ngIf="email.invalid && email.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="email.errors?.['required']">L'email est requis.</div>
+          <div *ngIf="email.errors?.['email']">L'email est invalide.</div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-gray-800 font-medium mb-1 required-asterisk">
+          Mot de passe
+        </label>
+        <input
+          id="password"
+          formControlName="password"
+          placeholder="Entrez votre mot de passe"
+          type="password"
+          pInputText
+          class="w-full"
+        />
+        <div *ngIf="password.invalid && password.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="password.errors?.['required']">Le mot de passe est requis.</div>
+          <div *ngIf="password.errors?.['minlength']">Mot de passe trop court.</div>
+        </div>
+      </div>
+
+      <!-- Bouton -->
+      <div class="mt-6">
+        <p-button
+          [disabled]="isSubmitButtonOn"
+          type="submit"
+          pRipple
+          label="Connexion"
+          [icon]="isSubmitButtonOn ? 'pi pi-spin pi-spinner' : 'pi pi-user'"
+          class="w-full"
+        ></p-button>
+      </div>
+
+    </form>
+  </div>
+</div>
+

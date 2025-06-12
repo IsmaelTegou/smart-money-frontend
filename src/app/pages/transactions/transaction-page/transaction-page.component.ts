@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Inject, Input, OnInit} from '@angular/core';
 import {TransactionResponseDTO} from '../../../models/transaction-response-dto';
 import {TransactionService} from '../../../services/transaction.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
@@ -34,8 +34,10 @@ export class TransactionPageComponent implements OnInit{
   public cols: Column[] = [];
   public globalFilterFields: string[] = [];
 
+  private service: TransactionService = inject(TransactionService);
+
   constructor(
-    private service: TransactionService,
+    //private service: TransactionService,
     private confirmationService: ConfirmationService,
     private dialogService: DialogService,
     private messageService: MessageService
@@ -51,7 +53,7 @@ export class TransactionPageComponent implements OnInit{
   }
 
   load() {
-    this.service.getAll(this.type).subscribe(data => this.transactions = data);
+    this.service.getAll(this.type).subscribe((data:any) => this.transactions = data);
   }
 
   openCreate() {
